@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>wuweihua 图片处理系统</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <script src='/static/jquery-3.4.1.min.js'></script>
+    <script>
+        $(document).ready(function () {
+            $("#fr-post").click(function () {
+                var img_list = [];
+                $('input:checkbox:checked').each(function () {
+                    img_list.push($(this).val());
+                });
+                // 文件夹ID
+                var id = '{{id}}';
+
+                // 是否仅生成首图
+                var cl = $('input[type=radio][name=cl]:checked').val();
+
+                // 首图样式
+                var ys = $('input[type=radio][name=ys]:checked').val();
+
+                // 第一行小标题
+                var line_1 = $('input[name=line_1]').val()
+                var line_2 = $('input[name=line_2]').val()
+                var line_3 = $('input[name=line_3]').val()
+                var line_4 = $('input[name=line_4]').val()
+                var line_5 = $('input[name=line_5]').val()
+                $.post("http://127.0.0.1:5000/chuli",
+                    {
+                        'id': id,
+                        'cl': cl,
+                        'ys': ys,
+                        'img_list': img_list,
+                        'line_1': line_1,
+                        'line_2': line_2,
+                        'line_3': line_3,
+                        'line_4': line_4,
+                        'line_5': line_5,
+                    },
+                    function (data, status) {
+                        alert("处理结果：" + status);
+                    });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 文件夹id输入框 -->
+        <div class="py-3">
+            <div class="row">
+                <div class="col">
+
+                    <form action="http://127.0.0.1:5000" method="get">
+                        <div class="form-group">
+                            <input type='text' name="id" class='form-control form-control-lg' value="{{id}}">
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-5">提交</button>
+                        <a class="btn btn-primary text-white" href="{{pev_id}}">上一文件夹</a>
+                        <a class="btn btn-primary text-white" href="{{next_id}}">下一文件夹</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 图片列表选择框 -->
+        {% if jpg_list %}
+
+        <!-- 标题文字 -->
+        <div class="mt-3">
+            <div class="row">
+                <div class="col">
+                    <h3 class="font-weight-light">{{jpg_num}}套 {{id}}</h3>
+                    <span class="badge badge-light"><a
+                            href="https://item.publish.taobao.com/sell/publish.htm?catId=201160807&keyProps=&newRouter=1">发布宝贝</a></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 首图文字 -->
+        <div class="mt-3">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="">第1行小标题</label>
+                        <input type="text" class="form-control form-control-lg" value="ai&eps" name="line_1">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="">第2行大标题</label>
+                        <input type="text" name="line_2" class="form-control form-control-lg">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="">第3行大标题</label>
+                        <input type="text" name="line_3" class="form-control form-control-lg" value="{{jpg_num}}套">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="">第4行大标题</label>
+                        <input type="text" name="line_4" class="form-control form-control-lg" value="矢量源文件 全元素可编辑">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="">第5行大标题</label>
+                        <input type="text" name="line_5" class="form-control form-control-lg" value="购买VIP。全店免费！">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 是否仅生成首图 -->
+        <div class="py-3">
+            <div class="row">
+                <div class="col-2">
+                    <div class="custom-radio custom-control">
+                        <input id="0" type="radio" name='cl' value="st" class="custom-control-input" checked>
+                        <label class="custom-control-label" for="0">首图</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="custom-radio custom-control">
+                        <input id="2" type="radio" name='cl' value="st_xq_2" class="custom-control-input">
+                        <label class="custom-control-label" for="2">首图 + 详情 2 栏</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="custom-radio custom-control">
+                        <input id="3" type="radio" name='cl' value="st_xq_3" class="custom-control-input">
+                        <label class="custom-control-label" for="3">首图 + 详情 3 栏</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="custom-radio custom-control">
+                        <input id="4" type="radio" name='cl' value="st_xq_4" class="custom-control-input">
+                        <label class="custom-control-label" for="4">首图 + 详情 4 栏</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="custom-radio custom-control">
+                        <input id="5" type="radio" name='cl' value="st_xq_5" class="custom-control-input">
+                        <label class="custom-control-label" for="5">首图 + 详情 5 栏</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 首图样式选择框 -->
+        <div class="py-3">
+            <!-- 第一行正方形 -->
+            <div class="row">
+                <div class="col-2">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="x1" name="ys" value="x1" class="custom-control-input">
+                        <label class="custom-control-label" for="x1">X1 方1</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="x4" name="ys" value="x4" class="custom-control-input">
+                        <label class="custom-control-label" for="x4">X4 方4</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="x9" name="ys" value="x9" class="custom-control-input">
+                        <label class="custom-control-label" for="x9">X9 方9</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="x16" name="ys" value="x16" class="custom-control-input">
+                        <label class="custom-control-label" for="x16">X16 方16</label>
+                    </div>
+                </div>
+            </div>
+            <!-- 第二行 长方形 -->
+            <div class="mt-3">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="x6" name="ys" value="x6" class="custom-control-input">
+                            <label class="custom-control-label" for="x6">H6 横6</label>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="x8" name="ys" value="x8" class="custom-control-input">
+                            <label class="custom-control-label" for="x8">H8 横8</label>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="x10" name="ys" value="x10" class="custom-control-input">
+                            <label class="custom-control-label" for="x10">H10 横10</label>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="x12" name="ys" value="x12" class="custom-control-input">
+                            <label class="custom-control-label" for="x12">H12 横12</label>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="x15" name="ys" value="x15" class="custom-control-input">
+                            <label class="custom-control-label" for="x15">H15 横15</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="s6" name="ys" value="s6" class="custom-control-input">
+                            <label class="custom-control-label" for="s6">S6 竖6</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 图片列表 -->
+        <div class="mt-3">
+            <div class="row">
+                {% for i in jpg_list %}
+                <div class="col-2 mb-2">
+                    <div class="custom-control custom-checkbox mr-sm-2">
+                        <input type="checkbox" name='img_list' value="{{i['name']}}" class="custom-control-input"
+                            id="{{i['name']}}">
+                        <label class="custom-control-label" for="{{i['name']}}"><img
+                                class="img-fluid border border-dark" src="{{i['path']}}" /></label>
+                    </div>
+                </div>
+                {% endfor%}
+            </div>
+        </div>
+
+        <button class="btn mt-3 mb-5 btn-primary btn-block btn-lg fr-post" id="fr-post">提交</button>
+
+        {% endif %}
+
+        <!-- 如果文件夹不存在信息框 -->
+        {% if info %}
+        <div class="p-3 bg-dark mt-3 text-white rounded">
+            <div class="row">
+                <div class="col">
+                    {{info}}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

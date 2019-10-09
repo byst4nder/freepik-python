@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Freepik List - 第{{page_number}}页</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <script src='/static/jquery-3.4.1.min.js'></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+
+        <div class="row" style="margin-bottom: 100px;">
+            {% for i in res%}
+            <div class="col-1 my-2">
+                <a target="_blank" href="{{i[2]}}">
+                    <img class="border border-dark img-fluid" src="{{i[3]}}" />
+                </a>
+                <a class="text-dark" target="_blank" href="{{i[1]}}">
+                    <span id="one_id">{{i[0]}}</span>
+                </a>
+            </div>
+            {%endfor%}
+        </div>
+
+        <div class="row position-fixed fixed-bottom p-3 bg-light">
+            <div class="col-auto">
+                <button class="btn btn-lg btn-danger px-5" id="clear">提交</button>
+            </div>
+            <div class="col-auto">
+                {% if pre_page != 1 %}
+                <a class="btn btn-lg btn-primary" href="http://127.0.0.1:5000/freepik?page=1">首页</a>
+                <a class="btn btn-lg btn-primary" href="http://127.0.0.1:5000/freepik?page={{pre_page}}">第 {{pre_page}} 页</a>
+                {%endif%}
+                <span class="btn">{{page_number}}</span>
+                <a class="btn btn-lg btn-primary" href="http://127.0.0.1:5000/freepik?page={{next_page}}">第
+                    {{next_page}} 页</a>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
+<script>
+    $(document).ready(function () {
+        $("#clear").click(function () {
+            var id_list = [];
+            $("span#one_id").each(function () {
+                id_list.push($(this).text());
+            });
+            $.post("http://127.0.0.1:5000/freepik", {
+                'id_list': id_list
+            });
+
+        });
+    });
+</script>
