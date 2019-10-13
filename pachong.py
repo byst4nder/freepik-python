@@ -32,7 +32,7 @@ def liebiao():
 @threads(20)
 def post_mysql(page_url,md5_mm,down_url,img_url):
     print(page_url+'\n'+md5_mm+'\n'+down_url+'\n'+img_url)
-    img_url = img_to_base64(img_url)
+    # img_url = img_to_base64(img_url)
 
     db = pymysql.connect(
         host = '127.0.0.1',

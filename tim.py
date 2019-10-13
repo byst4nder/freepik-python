@@ -70,15 +70,14 @@ def jieya(path):
             zf = zipfile.ZipFile(one_file_path)
             zf_rename_num = 0
             for one_zf in zf.namelist():
-                
                 one_zf_path = path+'/'+one_zf
                 if(one_zf_path).endswith('.txt'):
                     pass
                 else:
                     if os.path.exists(one_zf_path):
-                        os.rename( one_zf_path,str(os.path.splitext(one_zf_path)[0]) + '(' + str(zf_rename_num) + ')' + str(os.path.splitext(one_zf_path)[1]) )
-                    zf_rename_num = zf_rename_num + 1
-                    zf.extract(one_zf,path)
+                        pass
+                    else:
+                        zf.extract(one_zf,path)
             zf.close()
 
 
