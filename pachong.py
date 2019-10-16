@@ -10,7 +10,11 @@ from io import BytesIO
 from tomorrow3 import threads
 
 def htmldown(url):
-    html = HTMLSession().get(url).html
+    proxies = {
+        'http':'http://192.168.1.2:8787',
+        'https':'https://192.168.1.2:8787',
+    }
+    html = HTMLSession().get(url,proxies=proxies).html
     return html
 
 def img_to_base64(url):
@@ -29,7 +33,6 @@ def liebiao():
         pagenumber += 1
     return liebiao_list
 
-@threads(20)
 def post_mysql(page_url,md5_mm,down_url,img_url):
     print(page_url+'\n'+md5_mm+'\n'+down_url+'\n'+img_url)
     # img_url = img_to_base64(img_url)
